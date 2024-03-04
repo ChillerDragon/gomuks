@@ -527,25 +527,10 @@ const (
 )
 
 func getScrollbarStyle(scrollbarHere, isTop, isBottom bool) (char rune, style tcell.Style) {
-	char = '│'
+	char = '|'
 	style = tcell.StyleDefault
 	if scrollbarHere {
 		style = style.Foreground(tcell.ColorGreen)
-	}
-	if isTop {
-		if scrollbarHere {
-			char = '╥'
-		} else {
-			char = '┬'
-		}
-	} else if isBottom {
-		if scrollbarHere {
-			char = '╨'
-		} else {
-			char = '┴'
-		}
-	} else if scrollbarHere {
-		char = '║'
 	}
 	return
 }

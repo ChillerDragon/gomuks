@@ -321,10 +321,10 @@ func (trl *TagRoomList) Draw(screen mauview.Screen) {
 	hasMore := trl.HasInvisibleRooms()
 	if (hasLess || hasMore) && y < height {
 		if hasMore {
-			widget.WriteLine(screen, mauview.AlignRight, "More ↓", 0, y, width, tcell.StyleDefault)
+			widget.WriteLine(screen, mauview.AlignRight, "More v", 0, y, width, tcell.StyleDefault)
 		}
 		if hasLess {
-			widget.WriteLine(screen, mauview.AlignLeft, "↑ Less", 0, y, width, tcell.StyleDefault)
+			widget.WriteLine(screen, mauview.AlignLeft, "^ Less", 0, y, width, tcell.StyleDefault)
 		}
 		y++
 	}
