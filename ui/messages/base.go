@@ -233,7 +233,7 @@ func (msg *UIMessage) TextColor() tcell.Color {
 	case msg.IsHighlight:
 		return tcell.ColorYellow
 	case msg.Type == "m.room.member":
-		return tcell.ColorGreen
+		return tcell.ColorBlue
 	default:
 		return tcell.ColorDefault
 	}
@@ -315,7 +315,7 @@ func (msg *UIMessage) DrawReactions(screen mauview.Screen) {
 
 	x := 0
 	for _, reaction := range msg.Reactions {
-		_, drawn := mauview.PrintWithStyle(screen, reaction.String(), x, 0, width-x, mauview.AlignLeft, tcell.StyleDefault.Foreground(mauview.Styles.PrimaryTextColor).Background(tcell.ColorDarkGreen))
+		_, drawn := mauview.PrintWithStyle(screen, reaction.String(), x, 0, width-x, mauview.AlignLeft, tcell.StyleDefault.Foreground(mauview.Styles.PrimaryTextColor).Background(tcell.ColorDarkBlue))
 		x += drawn + 1
 		if x >= width {
 			break
@@ -334,7 +334,7 @@ func (msg *UIMessage) Draw(screen mauview.Screen) {
 				mainc, combc, style, _ := screen.GetContent(x, y)
 				_, bg, _ := style.Decompose()
 				if bg == tcell.ColorDefault {
-					screen.SetContent(x, y, mainc, combc, style.Background(tcell.ColorDarkGreen))
+					screen.SetContent(x, y, mainc, combc, style.Background(tcell.ColorDarkBlue))
 				}
 			}
 		}
@@ -367,7 +367,7 @@ func (msg *UIMessage) DrawReply(screen mauview.Screen) mauview.Screen {
 	}
 	width, height := screen.Size()
 	replyHeight := msg.ReplyTo.Height()
-	widget.WriteLineSimpleColor(screen, "In reply to", 1, 0, tcell.ColorGreen)
+	widget.WriteLineSimpleColor(screen, "In reply to", 1, 0, tcell.ColorBlue)
 	widget.WriteLineSimpleColor(screen, msg.ReplyTo.SenderName, 13, 0, msg.ReplyTo.SenderColor())
 	for y := 0; y < 1+replyHeight; y++ {
 		screen.SetCell(0, y, tcell.StyleDefault, '▊')

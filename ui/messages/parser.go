@@ -117,21 +117,21 @@ NewLoop:
 		addedList = append(addedList, tstring.NewStyleTString(string(newAlias), tcell.StyleDefault.Foreground(widget.GetHashColor(newAlias)).Underline(true)))
 	}
 	if len(addedList) == 1 {
-		addedStr = tstring.NewColorTString("added alternative address ", tcell.ColorGreen).AppendTString(addedList[0])
+		addedStr = tstring.NewColorTString("added alternative address ", tcell.ColorBlue).AppendTString(addedList[0])
 	} else if len(addedList) != 0 {
 		addedStr = tstring.
 			Join(addedList[:len(addedList)-1], ", ").
-			PrependColor("added alternative addresses ", tcell.ColorGreen).
-			AppendColor(" and ", tcell.ColorGreen).
+			PrependColor("added alternative addresses ", tcell.ColorBlue).
+			AppendColor(" and ", tcell.ColorBlue).
 			AppendTString(addedList[len(addedList)-1])
 	}
 	if len(removedList) == 1 {
-		removedStr = tstring.NewColorTString("removed alternative address ", tcell.ColorGreen).AppendTString(removedList[0])
+		removedStr = tstring.NewColorTString("removed alternative address ", tcell.ColorBlue).AppendTString(removedList[0])
 	} else if len(removedList) != 0 {
 		removedStr = tstring.
 			Join(removedList[:len(removedList)-1], ", ").
-			PrependColor("removed alternative addresses ", tcell.ColorGreen).
-			AppendColor(" and ", tcell.ColorGreen).
+			PrependColor("removed alternative addresses ", tcell.ColorBlue).
+			AppendColor(" and ", tcell.ColorBlue).
 			AppendTString(removedList[len(removedList)-1])
 	}
 	return
@@ -142,19 +142,19 @@ func ParseStateEvent(evt *muksevt.Event, displayname string) *UIMessage {
 	switch content := evt.Content.Parsed.(type) {
 	case *event.TopicEventContent:
 		if len(content.Topic) == 0 {
-			text = text.AppendColor("removed the topic.", tcell.ColorGreen)
+			text = text.AppendColor("removed the topic.", tcell.ColorBlue)
 		} else {
-			text = text.AppendColor("changed the topic to ", tcell.ColorGreen).
+			text = text.AppendColor("changed the topic to ", tcell.ColorBlue).
 				AppendStyle(content.Topic, tcell.StyleDefault.Underline(true)).
-				AppendColor(".", tcell.ColorGreen)
+				AppendColor(".", tcell.ColorBlue)
 		}
 	case *event.RoomNameEventContent:
 		if len(content.Name) == 0 {
-			text = text.AppendColor("removed the room name.", tcell.ColorGreen)
+			text = text.AppendColor("removed the room name.", tcell.ColorBlue)
 		} else {
-			text = text.AppendColor("changed the room name to ", tcell.ColorGreen).
+			text = text.AppendColor("changed the room name to ", tcell.ColorBlue).
 				AppendStyle(content.Name, tcell.StyleDefault.Underline(true)).
-				AppendColor(".", tcell.ColorGreen)
+				AppendColor(".", tcell.ColorBlue)
 		}
 	case *event.CanonicalAliasEventContent:
 		prevContent := &event.CanonicalAliasEventContent{}
@@ -164,10 +164,10 @@ func ParseStateEvent(evt *muksevt.Event, displayname string) *UIMessage {
 		}
 		debug.Printf("%+v -> %+v", prevContent, content)
 		if len(content.Alias) == 0 && len(prevContent.Alias) != 0 {
-			text = text.AppendColor("removed the main address of the room", tcell.ColorGreen)
+			text = text.AppendColor("removed the main address of the room", tcell.ColorBlue)
 		} else if content.Alias != prevContent.Alias {
 			text = text.
-				AppendColor("changed the main address of the room to ", tcell.ColorGreen).
+				AppendColor("changed the main address of the room to ", tcell.ColorBlue).
 				AppendStyle(string(content.Alias), tcell.StyleDefault.Underline(true))
 		} else {
 			added, removed := findAltAliasDifference(content.AltAliases, prevContent.AltAliases)
@@ -175,7 +175,7 @@ func ParseStateEvent(evt *muksevt.Event, displayname string) *UIMessage {
 				if len(removed) > 0 {
 					text = text.
 						AppendTString(added).
-						AppendColor(" and ", tcell.ColorGreen).
+						AppendColor(" and ", tcell.ColorBlue).
 						AppendTString(removed)
 				} else {
 					text = text.AppendTString(added)
@@ -183,9 +183,9 @@ func ParseStateEvent(evt *muksevt.Event, displayname string) *UIMessage {
 			} else if len(removed) > 0 {
 				text = text.AppendTString(removed)
 			} else {
-				text = text.AppendColor("changed nothing", tcell.ColorGreen)
+				text = text.AppendColor("changed nothing", tcell.ColorBlue)
 			}
-			text = text.AppendColor(" for this room", tcell.ColorGreen)
+			text = text.AppendColor(" for this room", tcell.ColorBlue)
 		}
 	}
 	return NewExpandedTextMessage(evt, displayname, text)
@@ -234,22 +234,22 @@ func getMembershipChangeMessage(evt *muksevt.Event, content *event.MemberEventCo
 	switch content.Membership {
 	case "invite":
 		sender = "---"
-		text = tstring.NewColorTString(fmt.Sprintf("%s invited %s.", senderDisplayname, displayname), tcell.ColorGreen)
+		text = tstring.NewColorTString(fmt.Sprintf("%s invited %s.", senderDisplayname, displayname), tcell.ColorBlue)
 		text.Colorize(0, len(senderDisplayname), widget.GetHashColor(evt.Sender))
 		text.Colorize(len(senderDisplayname)+len(" invited "), len(displayname), widget.GetHashColor(evt.StateKey))
 	case "join":
 		sender = "-->"
 		if prevMembership == event.MembershipInvite {
-			text = tstring.NewColorTString(fmt.Sprintf("%s accepted the invite.", displayname), tcell.ColorGreen)
+			text = tstring.NewColorTString(fmt.Sprintf("%s accepted the invite.", displayname), tcell.ColorBlue)
 		} else {
-			text = tstring.NewColorTString(fmt.Sprintf("%s joined the room.", displayname), tcell.ColorGreen)
+			text = tstring.NewColorTString(fmt.Sprintf("%s joined the room.", displayname), tcell.ColorBlue)
 		}
 		text.Colorize(0, len(displayname), widget.GetHashColor(evt.StateKey))
 	case "leave":
 		sender = "<--"
 		if evt.Sender != id.UserID(*evt.StateKey) {
 			if prevMembership == event.MembershipBan {
-				text = tstring.NewColorTString(fmt.Sprintf("%s unbanned %s", senderDisplayname, displayname), tcell.ColorGreen)
+				text = tstring.NewColorTString(fmt.Sprintf("%s unbanned %s", senderDisplayname, displayname), tcell.ColorBlue)
 				text.Colorize(len(senderDisplayname)+len(" unbanned "), len(displayname), widget.GetHashColor(evt.StateKey))
 			} else {
 				text = tstring.NewColorTString(fmt.Sprintf("%s kicked %s: %s", senderDisplayname, displayname, content.Reason), tcell.ColorRed)
@@ -307,9 +307,9 @@ func getMembershipEventContent(room *rooms.Room, evt *muksevt.Event) (sender str
 		color := widget.GetHashColor(evt.StateKey)
 		text = tstring.NewBlankTString().
 			AppendColor(prevDisplayname, color).
-			AppendColor(" changed their display name to ", tcell.ColorGreen).
+			AppendColor(" changed their display name to ", tcell.ColorBlue).
 			AppendColor(displayname, color).
-			AppendColor(".", tcell.ColorGreen)
+			AppendColor(".", tcell.ColorBlue)
 	}
 	return
 }

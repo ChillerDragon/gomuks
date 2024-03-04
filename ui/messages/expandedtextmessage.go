@@ -64,7 +64,7 @@ func NewDateChangeMessage(text string) *UIMessage {
 		Timestamp:  midnight,
 		IsService:  true,
 		Renderer: &ExpandedTextMessage{
-			Text: tstring.NewColorTString(text, tcell.ColorGreen),
+			Text: tstring.NewColorTString(text, tcell.ColorBlue),
 		},
 	}
 }

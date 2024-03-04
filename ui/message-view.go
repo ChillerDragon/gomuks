@@ -530,7 +530,7 @@ func getScrollbarStyle(scrollbarHere, isTop, isBottom bool) (char rune, style tc
 	char = '|'
 	style = tcell.StyleDefault
 	if scrollbarHere {
-		style = style.Foreground(tcell.ColorGreen)
+		style = style.Foreground(tcell.ColorBlue)
 	}
 	return
 }
@@ -553,7 +553,7 @@ func (view *MessageView) getIndexOffset(screen mauview.Screen, height, messageX 
 		if atomic.LoadInt32(&view.loadingMessages) == 1 {
 			message = "Loading more messages..."
 		}
-		widget.WriteLineSimpleColor(screen, message, messageX, 0, tcell.ColorGreen)
+		widget.WriteLineSimpleColor(screen, message, messageX, 0, tcell.ColorBlue)
 	}
 	return
 }
