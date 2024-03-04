@@ -18,7 +18,6 @@ package ui
 
 import (
 	"encoding/json"
-	"fmt"
 	"math"
 	"strconv"
 
@@ -61,22 +60,22 @@ func (or *OrderedRoom) Draw(roomList *RoomList, screen mauview.Screen, x, y, lin
 			Background(roomList.selectedBackgroundColor)
 	}
 
-	unreadCount := or.UnreadCount()
+	// unreadCount := or.UnreadCount()
 
 	widget.WriteLinePadded(screen, mauview.AlignLeft, or.GetTitle(), x, y, lineWidth, style)
 
-	if unreadCount > 0 {
-		unreadMessageCount := "99+"
-		if unreadCount < 100 {
-			unreadMessageCount = strconv.Itoa(unreadCount)
-		}
-		if or.Highlighted() {
-			unreadMessageCount += "!"
-		}
-		unreadMessageCount = fmt.Sprintf("(%s)", unreadMessageCount)
-		widget.WriteLine(screen, mauview.AlignRight, unreadMessageCount, x+lineWidth-7, y, 7, style)
-		lineWidth -= len(unreadMessageCount)
-	}
+	// if unreadCount > 0 {
+	// 	unreadMessageCount := "99+"
+	// 	if unreadCount < 100 {
+	// 		unreadMessageCount = strconv.Itoa(unreadCount)
+	// 	}
+	// 	if or.Highlighted() {
+	// 		unreadMessageCount += "!"
+	// 	}
+	// 	unreadMessageCount = fmt.Sprintf("(%s)", unreadMessageCount)
+	// 	widget.WriteLine(screen, mauview.AlignRight, unreadMessageCount, x+lineWidth-7, y, 7, style)
+	// 	lineWidth -= len(unreadMessageCount)
+	// }
 }
 
 type TagRoomList struct {
